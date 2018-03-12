@@ -1,6 +1,6 @@
 (function($) {
     $.extend({
-        message: function(type, options) {
+        /* message: function(type, options) {
             if (arguments.length === 0) {
                 type = null;
                 options = {}
@@ -17,68 +17,57 @@
                 }
             }
             createMessage(type, options)
+        } */
+        message: function(options) {
+            if (arguments.length === 0) {
+                options = {}
+            }
+            createMessage(options)
         }
     })
 
-    function createMessage(type, options) {
-        var iconName = 'fa-exclamation-circle';
+    function createMessage(options) {
+        // var iconName = 'fa-exclamation-circle';
+        if ('type' in options) {
+            if (options.type === 'success') {
+                options.iconName = 'fa-check-circle';
+                options.backgroundColor = '#f0f9eb';
+                options.borderColor = '#e1f3d8';
+                options.color = '#67c23a';
+            } else if (options.type === 'warning') {
+                options.iconName = 'fa-exclamation-triangle';
+                options.backgroundColor = '#fdf6ec';
+                options.borderColor = '#faecd8';
+                options.color = '#e6a23c';
+            } else if (options.type === 'error') {
+                options.iconName = 'fa-times-circle';
+                options.backgroundColor = '#fef0f0';
+                options.borderColor = '#fde2e2';
+                options.color = '#f56c6c';
+            }
+        }
         var defaults = {
             title: '这是一条消息',
+            type: 'default',
+            duration: 3000,
+            iconName: 'fa-exclamation-circle',
             borderColor: '#ebeef5',
             backgroundColor: '#edf2fc',
             color: '#909399'
         }
-        if (type === 'success') {
-            iconName = 'fa-check-circle';
-            defaults.backgroundColor = '#f0f9eb';
-            defaults.borderColor = '#e1f3d8';
-            defaults.color = '#67c23a';
-        } else if (type === 'warning') {
-            iconName = 'fa-exclamation-triangle';
-            defaults.backgroundColor = '#fdf6ec';
-            defaults.borderColor = '#faecd8';
-            defaults.color = '#e6a23c';
-        } else if (type === 'error') {
-            iconName = 'fa-times-circle';
-            defaults.backgroundColor = '#fef0f0';
-            defaults.borderColor = '#fde2e2';
-            defaults.color = '#f56c6c';
-        }
         var settings = $.extend(defaults, options);
         var body = $('body');
         var msg = $('<div class="message"></div>');
-        var i = $('<i class="fa '+ iconName +'"></i>');
+        var i = $('<i class="fa '+ settings.iconName +'"></i>');
         var p = $('<p></p>').text(settings.title);
         
         msg.css({
-            minWidth: '380px',
-            paddingTop: '15px',
-            paddingRight: '15px',
-            paddingBottom: '15px',
-            paddingLeft: '20px',
-            position: 'fixed',
-            left: '50%',
-            top: '-10px',
-            opacity: 0.3,
-            transform: 'translateX(-50%)',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderRadius: '4px',
-            fontSize: '14px',
             borderColor: settings.borderColor,
             backgroundColor: settings.backgroundColor,
             color: settings.color
         });
-        i.css({
-            marginRight: '10px'
-        });
-        p.css({
-            display: 'inline-block',
-            margin: 0,
-            padding: 0
-        });
-        msg.append(i).append(p);
-        body.append(msg);
+
+        body.append(msg.append(i).append(p));
         msg.animate({
             top: '20px',
             opacity: 1
@@ -89,6 +78,6 @@
             }, 'normal', 'swing', function() {
                 msg.remove();
             })
-        }, 3000)
+        }, settings.duration)
     }
 })(jQuery)

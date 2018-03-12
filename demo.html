@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/msgPlugin.css">
 </head>
 <body>
     <button class="success" type="button">成功</button>
@@ -16,13 +17,13 @@
     <script src="js/msgPlugin.js"></script>
     <script>
         $('.success').click(function() {
-            $.message('success', {title: '这是一个测试'});
+            $.message({title: '这是一个测试', type: 'success', duration: 0});
         })
         $('.warning').click(function() {
-            $.message('warning', {title: '这是一个测试'});
+            $.message({title: '这是一个测试', type: 'warning'});
         })
         $('.error').click(function() {
-            $.message('error', {title: '这是一个测试'});
+            $.message({title: '这是一个测试', type: 'error'});
         })
         $('.default').click(function() {
             $.message({title: '这是一个测试'});
